@@ -283,23 +283,30 @@ Just as a recap, these are the clusters:
 
 ```{r results = 'asis', echo = FALSE}
 centers <-  round(cluster2$centers, digits = 2)
+clus_name <- c("Run the d@rn ball","Run and Done","I'm not mad, just disappointed","Defense over all","Tank bowl","Airial Attack","Complete teams","Average, just average")
 
 for(i in 1:8){
   teams <-  Scaled_Combined_Stats_Analysis %>%
     filter(cluster == i) %>%
     select(c(Team,))
-  cat(paste("- `Cluster ", i, " \n", " Record: ",centers[i,1]," Total Offense: ",centers[i,2]," Passing Offense: ",centers[i,3]," Rushing Offense: ",centers[i,4]," Total Defense: ",centers[i,5]," Passing Defense: ",centers[i,6]," Rushing Defense: ",centers[i,7] ,"` \n"))
+  cat(paste("- `Cluster ", i,": " ,clus_name[i], "` \n "))
+  cat(paste(" - `Record: ",centers[i,1]," Total Offense: ",centers[i,2]," Passing Offense: ",centers[i,3]," Rushing Offense: ",centers[i,4]," Total Defense: ",centers[i,5]," Passing Defense: ",centers[i,6]," Rushing Defense: ",centers[i,7] ,"` \n"))
   for(j in teams){
     cat(paste("    - `", j, "` \n"))
   }
 }
 ```
 
+## Three and a Half Disappointments
+There is little aregument that the 4 most disappointing teams this year were the defending Super Bowl Champion Rams, big spending Broncos, promising Cardinals, and ~~Oakland~~ Las Vegas Raiders. Three of the four of these teams found themselves in the same cluster, with the Cardinals, Rams, and Broncos joining Tennessee in the cluster with the second worst record statistic. The Titans were also disappointing; however, I don't think they had the same expectations as the other three; expected only to win the anemic AFC South. The Rams and Broncos were considered potential Super Bowl contenders and the Cardinals were expected to make the playoffs at minimum. One year sure can change a lot. 
+
 ## There Are Five Complete Teams
+In cluster 5, we find 5 complete teams: the Eagles, Cowboys, 49ers, Bills and Bengals. These teams are above average in every category and are currently the 2nd to 6th most likely to win the Super Bowl according to betting odds. The team with the best odds is Kansas City and they have the best quarterback in the league. Kansas City sitting as the betting favorite is a testament to the greatness of Patrick Mahomes. Back to these 5 teams, they are talented across the board and definitely belong in a cluster together based on how they look on the screen. I can't wait to see matchups between these teams in the playoffs. I personally think that the only teams that can beat anyone in this group are the other teams in this group and Kansas City. 
 
-## 
-
-
+## NFC North Qbs are Underrated
+If we look at cluster 6, these teams have bad defenses and slightly below average rush attacks, yet are still winning. This cluster's teams are carried by their passing games and only their passing games. Let's look at the three quarterbacks who aren't from the NFC North; Patrick Mahomes should win the MVP this year and broke the record for most total yards in a season, Tua Tagovailoa was an MVP candidate before he suffered multiple concussions and leads the league in passer rating among qualifying quarterbacks, and finally Trevor Lawrence has had a breakout sophomore season and is heralded as a future superstar who may have already arrived. This leaves us with only Jared Goff and Kirk Cousins. 
+Two years ago, Goff was traded with miltiple first round picks for an aging Matthew Stafford (we won the SB tho, so worth), and many were saying that he was overpaid and couldn't be a great quarterback in the league. This year, he led the Lions breakout offense and finished 7th in passer rating with 29 touchdowns to only 7 interceptions. Jared Goff has really developed on the Lions. Only a coulple of years ago, he was in the Super Bowl and this season proves that he can be a very good player without Sean McVay. 
+Kirk Cousins has been questioned as a franchise quarterback and while he finished below average in passer rating, the offense, and team, went as he did with him finishing fourth in yards and fifth in touchdowns, while being the second most sacked quarterback in the league. I don't think Kirk is a star, but he earned the all-star appearance this year and is at worst a solid franchise quarterback in the NFL. 
 
 ```{r echo=FALSE}
 options(warn = defaultW)
