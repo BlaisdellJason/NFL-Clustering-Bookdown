@@ -199,7 +199,6 @@ This clustering is not ideal, because it is less interpretable as to what factor
 ## Reducing to 7 Variables
 In order to have fewer variables to look through to find what makes a cluster unique, I reduced the number of variables into the following more interpretable variables:
 
-<br>
 
 <div style = "text-align:left; margin-left: 50px">
 
@@ -274,6 +273,7 @@ for(i in 1:8){
   }
 }
 ```
+<br>
 Interesting findings from this section are their own chapter. You're almost there :)
 
 # Interesting Findings
