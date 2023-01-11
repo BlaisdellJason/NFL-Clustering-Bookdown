@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 First Clustering | NFL Team Clusters</title>
+  <meta name="description" content="Chapter 3 First Clustering | NFL Team Clusters" />
+  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 First Clustering | NFL Team Clusters" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 First Clustering | NFL Team Clusters" />
+  
+  
+  
+
+<meta name="author" content="Jason Blaisdell" />
+
+
+<meta name="date" content="2023-01-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="getting-set-up.html"/>
+<link rel="next" href="second-clustering.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">NFL Clustering</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Project Overview</a></li>
+<li class="chapter" data-level="2" data-path="getting-set-up.html"><a href="getting-set-up.html"><i class="fa fa-check"></i><b>2</b> Getting Set Up</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="getting-set-up.html"><a href="getting-set-up.html#loading-packages"><i class="fa fa-check"></i><b>2.1</b> Loading Packages</a></li>
+<li class="chapter" data-level="2.2" data-path="getting-set-up.html"><a href="getting-set-up.html#loading-data"><i class="fa fa-check"></i><b>2.2</b> Loading Data</a></li>
+<li class="chapter" data-level="2.3" data-path="getting-set-up.html"><a href="getting-set-up.html#trimming-and-renaming-data"><i class="fa fa-check"></i><b>2.3</b> Trimming and Renaming Data</a></li>
+<li class="chapter" data-level="2.4" data-path="getting-set-up.html"><a href="getting-set-up.html#joining-data"><i class="fa fa-check"></i><b>2.4</b> Joining Data</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="first-clustering.html"><a href="first-clustering.html"><i class="fa fa-check"></i><b>3</b> First Clustering</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="first-clustering.html"><a href="first-clustering.html#optimizing-the-number-of-clusters"><i class="fa fa-check"></i><b>3.1</b> Optimizing the Number of Clusters</a></li>
+<li class="chapter" data-level="3.2" data-path="first-clustering.html"><a href="first-clustering.html#creating-eight-clusters"><i class="fa fa-check"></i><b>3.2</b> Creating Eight Clusters</a></li>
+<li class="chapter" data-level="3.3" data-path="first-clustering.html"><a href="first-clustering.html#cluster-reveal"><i class="fa fa-check"></i><b>3.3</b> Cluster Reveal</a></li>
+<li class="chapter" data-level="3.4" data-path="first-clustering.html"><a href="first-clustering.html#interesting-findings"><i class="fa fa-check"></i><b>3.4</b> Interesting Findings</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="first-clustering.html"><a href="first-clustering.html#finding-1"><i class="fa fa-check"></i><b>3.4.1</b> Finding 1</a></li>
+<li class="chapter" data-level="3.4.2" data-path="first-clustering.html"><a href="first-clustering.html#finding-2"><i class="fa fa-check"></i><b>3.4.2</b> Finding 2</a></li>
+<li class="chapter" data-level="3.4.3" data-path="first-clustering.html"><a href="first-clustering.html#finding-3"><i class="fa fa-check"></i><b>3.4.3</b> Finding 3</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="first-clustering.html"><a href="first-clustering.html#flaws"><i class="fa fa-check"></i><b>3.5</b> Flaws</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="second-clustering.html"><a href="second-clustering.html"><i class="fa fa-check"></i><b>4</b> Second Clustering</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="second-clustering.html"><a href="second-clustering.html#reducing-to-7-variables"><i class="fa fa-check"></i><b>4.1</b> Reducing to 7 Variables</a></li>
+<li class="chapter" data-level="4.2" data-path="second-clustering.html"><a href="second-clustering.html#optimizing-the-number-of-clusters-1"><i class="fa fa-check"></i><b>4.2</b> Optimizing the Number of Clusters</a></li>
+<li class="chapter" data-level="4.3" data-path="second-clustering.html"><a href="second-clustering.html#creating-eight-clusters-1"><i class="fa fa-check"></i><b>4.3</b> Creating Eight Clusters</a></li>
+<li class="chapter" data-level="4.4" data-path="second-clustering.html"><a href="second-clustering.html#cluster-reveal-1"><i class="fa fa-check"></i><b>4.4</b> Cluster Reveal</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="interesting-findings-1.html"><a href="interesting-findings-1.html"><i class="fa fa-check"></i><b>5</b> Interesting Findings</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="interesting-findings-1.html"><a href="interesting-findings-1.html#there-are-five-complete-teams"><i class="fa fa-check"></i><b>5.1</b> There Are Five Complete Teams</a></li>
+<li class="chapter" data-level="5.2" data-path="interesting-findings-1.html"><a href="interesting-findings-1.html#section"><i class="fa fa-check"></i><b>5.2</b> </a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">NFL Team Clusters</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="first-clustering" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> First Clustering<a href="first-clustering.html#first-clustering" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="optimizing-the-number-of-clusters" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Optimizing the Number of Clusters<a href="first-clustering.html#optimizing-the-number-of-clusters" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The number of clusters that should be used for a data set can depend on many factors. From the jump, I anticipated using 8 clusters to mirror the NFL’s 8 divisions; however, to be thorough, I wanted to try to find an optimal number of clusters naively. To do this, I used the fviz_nbclust() function, which creates clusterings with 1 to a specified maximum number of centers and measures the total distance from points to the center of their cluster. In many cases, the total distance will quickly drop off as more clusters are added, until most of the major separation has been split into the clusters, at which point the distance will drop off more slowly. This point where the rate of drop off changes drastically is called the elbow.
+<br>
+I also set a seed so that the results of what I did would be reproducable for anyone who reads this later :) (you’re welcome)</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="first-clustering.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb7-2"><a href="first-clustering.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_nbclust</span>(Scaled_stats, kmeans, <span class="at">method =</span> <span class="st">&quot;wss&quot;</span>,<span class="at">k.max =</span> <span class="dv">10</span>, <span class="at">nboot =</span> <span class="dv">100</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+When I looked at the graph, I did not see a clear elbow. It could be argued that 4 could be the elbow, but I am not convinced. I was planning to do 8 clusters regardless, but the lack of a clear elbow sold that decision.</p>
+</div>
+<div id="creating-eight-clusters" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Creating Eight Clusters<a href="first-clustering.html#creating-eight-clusters" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In order to create the 8 clusters I used the kmeans function and specified that I wanted 8 centers. I made the nstart value 100. The larger this number, the more times the algorithm will pick random starting points, so a larger number will produce the best results at the cost of time. With only 33 observations, I could make this number 10,000 and it would still run in less than 10 seconds; however, if you are clustering large datasets in the future, you will want to make this number smaller. Going up to 10,000 for the number of random starts would at best marginally improve the nstart of 100. Once the clusters are created, they need to be added to the data frame so that I can later sort by cluster.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="first-clustering.html#cb8-1" aria-hidden="true" tabindex="-1"></a>cluster <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(Scaled_stats, <span class="at">centers =</span> <span class="dv">8</span>, <span class="at">nstart =</span> <span class="dv">100</span>)</span>
+<span id="cb8-2"><a href="first-clustering.html#cb8-2" aria-hidden="true" tabindex="-1"></a>Scaled_Stats_Analysis <span class="ot">&lt;-</span> Scaled_stats</span>
+<span id="cb8-3"><a href="first-clustering.html#cb8-3" aria-hidden="true" tabindex="-1"></a>Scaled_Stats_Analysis<span class="sc">$</span>cluster <span class="ot">&lt;-</span> cluster<span class="sc">$</span>cluster</span>
+<span id="cb8-4"><a href="first-clustering.html#cb8-4" aria-hidden="true" tabindex="-1"></a>Scaled_Stats_Analysis<span class="sc">$</span>Team <span class="ot">&lt;-</span> All_stats<span class="sc">$</span>Team</span></code></pre></div>
+</div>
+<div id="cluster-reveal" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Cluster Reveal<a href="first-clustering.html#cluster-reveal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="first-clustering.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>){</span>
+<span id="cb9-2"><a href="first-clustering.html#cb9-2" aria-hidden="true" tabindex="-1"></a>  teams <span class="ot">&lt;-</span>  Scaled_Stats_Analysis <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="first-clustering.html#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(cluster <span class="sc">==</span> i) <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="first-clustering.html#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="fu">c</span>(Team,))</span>
+<span id="cb9-5"><a href="first-clustering.html#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;- `Cluster &quot;</span>, i, <span class="st">&quot;` </span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb9-6"><a href="first-clustering.html#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> teams){</span>
+<span id="cb9-7"><a href="first-clustering.html#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;    - `&quot;</span>, j, <span class="st">&quot;` </span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb9-8"><a href="first-clustering.html#cb9-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-9"><a href="first-clustering.html#cb9-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<ul>
+<li><code>Cluster  1</code>
+<ul>
+<li><code>New York Giants</code></li>
+<li><code>Minnesota Vikings</code></li>
+<li><code>Detroit Lions</code></li>
+<li><code>Seattle Seahawks</code></li>
+<li><code>Jacksonville Jaguars</code></li>
+</ul></li>
+<li><code>Cluster  2</code>
+<ul>
+<li><code>Carolina Panthers</code></li>
+<li><code>Los Angeles Rams</code></li>
+<li><code>New England Patriots</code></li>
+<li><code>Baltimore Ravens</code></li>
+<li><code>Pittsburgh Steelers</code></li>
+<li><code>Tennessee Titans</code></li>
+<li><code>Denver Broncos</code></li>
+<li><code>Avg Team</code></li>
+</ul></li>
+<li><code>Cluster  3</code>
+<ul>
+<li><code>Washington Commanders</code></li>
+<li><code>New Orleans Saints</code></li>
+<li><code>New York Jets</code></li>
+<li><code>Cleveland Browns</code></li>
+</ul></li>
+<li><code>Cluster  4</code>
+<ul>
+<li><code>Philadelphia Eagles</code></li>
+<li><code>Dallas Cowboys</code></li>
+<li><code>San Francisco 49ers</code></li>
+<li><code>Buffalo Bills</code></li>
+<li><code>Kansas City Chiefs</code></li>
+</ul></li>
+<li><code>Cluster  5</code>
+<ul>
+<li><code>Chicago Bears</code></li>
+<li><code>Atlanta Falcons</code></li>
+</ul></li>
+<li><code>Cluster  6</code>
+<ul>
+<li><code>Indianapolis Colts</code></li>
+<li><code>Houston Texans</code></li>
+</ul></li>
+<li><code>Cluster  7</code>
+<ul>
+<li><code>Green Bay Packers</code></li>
+<li><code>Tampa Bay Buccaneers</code></li>
+<li><code>Cincinnati Bengals</code></li>
+<li><code>Los Angeles Chargers</code></li>
+</ul></li>
+<li><code>Cluster  8</code>
+<ul>
+<li><code>Arizona Cardinals</code></li>
+<li><code>Miami Dolphins</code></li>
+<li><code>Las Vegas Raiders</code></li>
+</ul></li>
+</ul>
+</div>
+<div id="interesting-findings" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Interesting Findings<a href="first-clustering.html#interesting-findings" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>I want to discuss 3 interesting findings from these clusters. These findings are especially interesting to look at with the teams’ records to see how closely tied performing similarly in all of these categories corresponds to wins (the main metric fans are judging teams on).</p>
+<div id="finding-1" class="section level3 hasAnchor" number="3.4.1">
+<h3><span class="header-section-number">3.4.1</span> Finding 1<a href="first-clustering.html#finding-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Clusters 5 and 6 are both pairs of really bad teams. The Bears, Falcons, Colts, and Texans combined to go 17-29-2 with the tie coming in a game between the Colts and Texans. It is interesting to me that these teams formed two clusters and not one together with all of them. If I had used fewer clusters, like the elbow recommended that I do, these clusters may have combined to be only one.</p>
+</div>
+<div id="finding-2" class="section level3 hasAnchor" number="3.4.2">
+<h3><span class="header-section-number">3.4.2</span> Finding 2<a href="first-clustering.html#finding-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The Vikings are in cluster 1with the Giants, Lions, Seahawks, and Jaguars, all of who won 9 games while the Vikings went 13-4. This is not surprising when you consider that the Vikings have the best record for any team ever with a negative point differential. All of these teams were slightly above average and I am a bit surprised that the “Avg Team” is not in this cluster</p>
+</div>
+<div id="finding-3" class="section level3 hasAnchor" number="3.4.3">
+<h3><span class="header-section-number">3.4.3</span> Finding 3<a href="first-clustering.html#finding-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>My favorite team, the Los Angeles Rams and my local team, the Carolina Panthers are both in cluster 2, alongside the “Avg Team”. This surprised me, as the Rams were hard to watch this year and I would have thought that they would be in a lesser cluster. The Panthers make more sense as a average team, but also looked below average when I watched their games. Of the other teams, the Patriots, Steelers, and Titans all make sense as average teams; however, it’s hard to imagine that the 10-7 Ravens and the 5-12 Broncos belong in the same cluster as one another, but that is what the data says.</p>
+</div>
+</div>
+<div id="flaws" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> Flaws<a href="first-clustering.html#flaws" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This clustering is not ideal, because it is less interpretable as to what factors these teams are different from average in, so I made some adjustments and did a new clustering in the Second Clustering chapter</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="getting-set-up.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="second-clustering.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/blaisdelljason/NFL-Clustering-Bookdown/edit/master/index.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/blaisdelljason/NFL-Clustering-Bookdown/blob/master/index.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

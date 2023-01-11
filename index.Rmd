@@ -1,9 +1,308 @@
 --- 
-title: "YOUR TITLE HERE"
-author: "YOUR NAME HERE"
+title: "NFL Team Clusters"
+author: "Jason Blaisdell"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 ---
 
-# Down the rabbit-hole
+# Project Overview
+
+```{r echo = FALSE}
+defaultW <- getOption("warn")
+options(warn = -1)
+```
+
+Not all 13 win teams are created equally. The Vikings have proven that. Not all 1-6 teams are doomed to have the first pick in the draft as their only hope. In this project, I explored clustering the NFL's 32 teams and the league average to see which teams were truly exceptional, whether they were good or bad.
+
+I began by collecting 58 statistics measuring team performance for the season from [link Pro Football Reference](https://www.pro-football-reference.com/years/2022/). These statistics covered everything from wins and losses to passing first downs to fumbles forced. All of the statistic were adjusted so that a team's value was the z-score to make the euclidean distance unbiased to statistics with a high absolute values. The statistics covered every element of the teams' seasons so thoroughly that they became unwieldy, both in finding an optimal number of clusters and when trying to look at the common features of the teams, as there were just too many variables. To make the results more interpretable, I merged the variables into. 7 categories: 
+<br>
+
+<div style = "text-align:left; margin-left: 50px">
+
+<li>Results</li>
+<li>Total Offense</li>
+<li>Passing Offence</li>
+<li>Rushing Offense</li>
+<li>Total Defense</li>
+<li>Passing Defense</li>
+<li>Rushing Defense</li>
+
+</div>
+
+<br>
+With the new, reduced number of variables, I redid the clustering. In the end, I made 8 clusters, taking inspiration from the NFL's 8 divisions. These clusters had 2-7 teams, with the largest cluster also having the league average. These clusters and their defining characteristics will be explored in Chapter 4. 
+
+# Getting Set Up
+
+## Loading Packages
+As with every other r project, the first element is the packages I needed to complete the project. I needed tidyverse to perform data manipulation, ggplot to plot a couple of figures and the other packages to actually do the clustering. 
+
+```{r Loading in packages}
+library(tidyverse)
+library(cluster)  
+library(NbClust)
+library(factoextra)
+library(ggplot2)
+library(knitr)
+```
+
+## Loading Data
+
+I downloaded the tables from Pro Football Reference as .txt files; however, they were still just rows of comma seperated values, so I was able to load them in using read.csv. There were three tables:
+
+<div style = "text-align:left; margin-left: 50px">
+<ol>
+<li>Records: Teams' records, margin of victory, and ratings </li>
+<li>Offense: Teams' offensive performance, split out by totals, passing and rushing</li>
+<li>Defense: Teams' defensive performance, split out by totals, passing and rushing</li>
+</ol>
+</div>
+
+
+```{r Loading in data}
+records <- read.csv("C:/Users/Jason Blaisdell/Documents/Grad School/Personal/NFL Clustering/Records.txt")
+offense <- read.csv("C:/Users/Jason Blaisdell/Documents/Grad School/Personal/NFL Clustering/Offense.txt")
+defense <- read.csv("C:/Users/Jason Blaisdell/Documents/Grad School/Personal/NFL Clustering/Defense.txt")
+```
+
+## Trimming and Renaming Data
+
+Once I loaded the tables in, I removed information that was redundant across tables, such as total points scores, which was in the records table and the offence table. 
+
+```{r}
+
+records <- records %>%
+  select(c(Tm,W,L,T,W.L.,MoV,SoS,SRS,OSRS,DSRS))
+offense <- offense %>%
+  select(c(Tm,PF,Yds,Ply,Y.P,TO,FL,X1stD,Cmp,Att,Yds.1,TD,Int,NY.A,X1stD.1,Att.1,Yds.2,TD.1,Y.A,X1stD.2,Pen,Yds.3,X1stPy,Sc.,TO.))
+defense <- defense %>%
+  select(c(Tm,PA,Yds,Ply,Y.P,TO,FL,X1stD,Cmp,Att,Yds.1,TD,Int,NY.A,X1stD.1,Att.1,Yds.2,TD.1,Y.A,X1stD.2,Pen,Yds.3,X1stPy,Sc.,TO.))
+```
+
+Finally, I renamed the statistics to more recognizable names, mostly for my own sanity as it isn't instantly apparent that the tag "X1std.2" corresponds to rushing first downs. I also multiplied the values of some stats by negative one so that a bigger number was better for all offensive statistics and a smaller number was better for all defensive statistics. It doesn't make sense to throw -13 interceptions, but once the statistics were scaled, this value simply became a z-score and if a team threw fewer interceptions than the league average, they will have a positive z-score.
+
+```{r}
+names(records)[names(records) == c('Tm','W','L','T','W.L.','MoV','SoS','SRS','OSRS','DSRS')] <- c('Team','Wins','Losses','Ties','Win Percent','Average Margin of Victory','Strength of Schedule','Simple Rating System (SRS)','Offensive SRS','Defensive SRS')
+
+names(offense)[names(offense) == c('Tm','PF','Yds','Ply','Y.P','TO','FL','X1stD','Cmp','Att','Yds.1','TD','Int','NY.A','X1stD.1','Att.1','Yds.2','TD.1','Y.A','X1stD.2','Pen','Yds.3','X1stPy','Sc.','TO.')] <- c('Team','Points For','Total Yards','Total Offensive Plays','Yards per Play','Total Turnovers','Fumbles','Total First Downs','Completions','Pass Attempts','Pass Yards','Passing Touchdowns','Interceptions Thrown','Net Yards per Pass Attempt','Passing First Downs','Rushing Attempts','Rushing yards','Rushing Touchdowns','Yards per Rush Attempt','Rushing First Downs','Penalties Committed','Penalty Yards','First Downs off Penalties','Scoring Percentage','Turnover Percentage')
+
+offense$`Total Turnovers` <-offense$`Total Turnovers` * -1
+offense$Fumbles <-offense$Fumbles * -1
+offense$`Interceptions Thrown` <-offense$`Interceptions Thrown` * -1
+offense$`Turnover Percentage` <-offense$`Turnover Percentage` * -1
+
+names(defense)[names(defense) == c('Tm','PA','Yds','Ply','Y.P','TO','FL','X1stD','Cmp','Att','Yds.1','TD','Int','NY.A','X1stD.1','Att.1','Yds.2','TD.1','Y.A','X1stD.2','Pen','Yds.3','X1stPy','Sc.','TO.')] <- c('Team','Points Against','Total Yards Allowed','Total Defensive Plays','Yards Allowed per Play','Total Turnovers Created','Fumbles Forced','Opponents Total First Downs','Opponents Completions','Opponents Pass Attempts','Opponents Pass Yards','Opponents Passing Touchdowns','Opponents Interceptions Thrown','Opponents Net Yards per Pass Attempt','Opponents Passing First Downs','Opponents Rushing Attempts','Opponents Rushing yards','Opponents Rushing Touchdowns','Opponents Yards per Rush Attempt','Opponents Rushing First Downs','Defensive Penalties Committed','Defensive Penalty Yards','First Downs Given up off Penalties','Opponents Scoring Percentage','Opponent Turnover Percentage')
+
+defense$`Total Turnovers Created` <- defense$`Total Turnovers Created` * -1
+defense$`Fumbles Forced` <- defense$`Fumbles Forced` * -1
+defense$`Opponents Interceptions Thrown` <- defense$`Opponents Interceptions Thrown` * -1
+defense$`Opponent Turnover Percentage` <- defense$`Opponent Turnover Percentage` * -1
+
+```
+
+## Joining Data
+
+The "records" data frame did not have an average team, so I created one using the averages of all of the other teams. This was important because the other data frames had an average team and I wanted the league average to appear in one of my clusters.  
+
+```{r}
+records_avg <-  summarise_all(records, mean)
+records_avg[1] <- 'Avg Team'
+records <- rbind(records, records_avg)
+```
+
+Finally, I was ready to join my three data frames into one. I used an inner join so I could check the number of observations in the new data frame to quickly see if I had any teams named incorrectly, as any team names that didn't match would make the number of observations drop. The first time I ran this, it was a problem due to the fact that the team names in the records data frame included '*' or '+' for teams that won their divisions or were wildcards respectively. I removed these in the original txt files and then re-ran all of the code. 
+
+<br>
+
+Two important data frames were created in this step:
+
+<div style = "text-align:left; margin-left: 50px">
+
+<li>All_stats: Inner joined data frame with all of the original statistics for every team</li>
+<li>Scaled_stats: Scaled version of the joined data without the "Team" column (the teams are still in the same order) </li>
+
+</div>
+
+<br>
+
+It is important to have the scaled data frame to prevent the clustering from being weighted more by large statistics, like passing yards, than by smaller statistics, like passing touchdowns. The "Team" column also needed to be removed to allow the clustering to run only on the team statistics. 
+```{r}
+All_stats <- inner_join(records, inner_join(offense, defense, by = "Team"), by = "Team")
+
+Scaled_stats <- All_stats
+Scaled_stats[,colnames(All_stats)[colnames(All_stats)!='Team']] <- scale(All_stats[,colnames(All_stats)[colnames(All_stats)!='Team']])
+
+Scaled_stats <- Scaled_stats[,colnames(Scaled_stats)[colnames(Scaled_stats)!='Team']]
+```
+
+Now that I had created my data frame, I was ready to do some clustering
+
+# First Clustering
+
+## Optimizing the Number of Clusters
+
+The number of clusters that should be used for a data set can depend on many factors. From the jump, I anticipated using 8 clusters to mirror the NFL's 8 divisions; however, to be thorough, I wanted to try to find an optimal number of clusters naively. To do this, I used the fviz_nbclust() function, which creates clusterings with 1 to a specified maximum number of centers and measures the total distance from points to the center of their cluster. In many cases, the total distance will quickly drop off as more clusters are added, until most of the major separation has been split into the clusters, at which point the distance will drop off more slowly. This point where the rate of drop off changes drastically is called the elbow. 
+<br>
+I also set a seed so that the results of what I did would be reproducable for anyone who reads this later :) (you're welcome)
+
+```{r}
+set.seed(123)
+fviz_nbclust(Scaled_stats, kmeans, method = "wss",k.max = 10, nboot = 100)
+```
+When I looked at the graph, I did not see a clear elbow. It could be argued that 4 could be the elbow, but I am not convinced. I was planning to do 8 clusters regardless, but the lack of a clear elbow sold that decision. 
+
+## Creating Eight Clusters
+
+In order to create the 8 clusters I used the kmeans function and specified that I wanted 8 centers. I made the nstart value 100. The larger this number, the more times the algorithm will pick random starting points, so a larger number will produce the best results at the cost of time. With only 33 observations, I could make this number 10,000 and it would still run in less than 10 seconds; however, if you are clustering large datasets in the future, you will want to make this number smaller. Going up to 10,000 for the number of random starts would at best marginally improve the nstart of 100. Once the clusters are created, they need to be added to the data frame so that I can later sort by cluster. 
+
+```{r}
+cluster <- kmeans(Scaled_stats, centers = 8, nstart = 100)
+Scaled_Stats_Analysis <- Scaled_stats
+Scaled_Stats_Analysis$cluster <- cluster$cluster
+Scaled_Stats_Analysis$Team <- All_stats$Team
+```
+
+## Cluster Reveal
+
+```{r results = 'asis'}
+for(i in 1:8){
+  teams <-  Scaled_Stats_Analysis %>%
+    filter(cluster == i) %>%
+    select(c(Team,))
+  cat(paste("- `Cluster ", i, "` \n"))
+  for(j in teams){
+    cat(paste("    - `", j, "` \n"))
+  }
+}
+```
+
+## Interesting Findings
+I want to discuss 3 interesting findings from these clusters. These findings are especially interesting to look at with the teams' records to see how closely tied performing similarly in all of these categories corresponds to wins (the main metric fans are judging teams on).
+
+### Finding 1
+Clusters 5 and 6 are both pairs of really bad teams. The Bears, Falcons, Colts, and Texans combined to go 17-29-2 with the tie coming in a game between the Colts and Texans. It is interesting to me that these teams formed two clusters and not one together with all of them. If I had used fewer clusters, like the elbow recommended that I do, these clusters may have combined to be only one. 
+
+### Finding 2
+
+The Vikings are in cluster 1with the Giants, Lions, Seahawks, and Jaguars, all of who won 9 games while the Vikings went 13-4. This is not surprising when you consider that the Vikings have the best record for any team ever with a negative point differential. All of these teams were slightly above average and I am a bit surprised that the "Avg Team" is not in this cluster
+
+### Finding 3
+
+My favorite team, the Los Angeles Rams and my local team, the Carolina Panthers are both in cluster 2, alongside the "Avg Team". This surprised me, as the Rams were hard to watch this year and I would have thought that they would be in a lesser cluster. The Panthers make more sense as a average team, but also looked below average when I watched their games. Of the other teams, the Patriots, Steelers, and Titans all make sense as average teams; however, it's hard to imagine that the 10-7 Ravens and the 5-12 Broncos belong in the same cluster as one another, but that is what the data says. 
+
+## Flaws
+
+This clustering is not ideal, because it is less interpretable as to what factors these teams are different from average in, so I made some adjustments and did a new clustering in the Second Clustering chapter
+
+# Second Clustering
+
+## Reducing to 7 Variables
+In order to have fewer variables to look through to find what makes a cluster unique, I reduced the number of variables into the following more interpretable variables:
+
+<br>
+
+<div style = "text-align:left; margin-left: 50px">
+
+<li>Results</li>
+<li>Total Offense</li>
+<li>Passing Offence</li>
+<li>Rushing Offense</li>
+<li>Total Defense</li>
+<li>Passing Defense</li>
+<li>Rushing Defense</li>
+
+</div>
+
+<br>
+
+To do this, I combined the variables that I thought fell into each category, by finding the average of that set of variables' z-scores. Some variables didn't fall neatly into one of the categories, especially those related to penalties, and those were left off. Obviously, a lot of the more minute variations between teams are lost here as some teams might be good in some of the included categories and bad at other, but that is the sacrifice we make for interpretability. I could have done PCA to capture as much of the information as possible with fewer variables; however, this would still result in a loss of what information that component is trying to convey.
+
+<br>
+Note: As I am writing this I am considering, would there be an advantage to breaking the variables into the seven categories and then finding one principal component and take the value of that principal component for value for that category; however, I think that there would be issues with that component not necesarily having bigger = better, but I'm not sure. If you have taken the time to read this far, message me with what you think about that :)
+
+<br>
+
+Here is also where it was important to negate the turnover variables earlier, so that a team with few interceptions has a positive z-score, helping their "Passing Offense". Finally, I negated all of the defensive stats, so that a positive number is a team that is above average in that category and negative is below average. It was confusing for negatives to be good, so I got rid of that.   
+
+```{r}
+
+Teams <- All_stats$Team
+Results <- rowMeans(subset(Scaled_stats,select = c('Win Percent','Average Margin of Victory','Strength of Schedule','Simple Rating System (SRS)','Offensive SRS','Defensive SRS')))
+`Total Offense` <- rowMeans(subset(Scaled_stats,select = c('Win Percent','Average Margin of Victory','Strength of Schedule','Simple Rating System (SRS)','Offensive SRS','Defensive SRS','Scoring Percentage','Turnover Percentage','Total Turnovers')))
+`Passing Offense`<- rowMeans(subset(Scaled_stats,select = c('Completions','Pass Attempts','Pass Yards','Passing Touchdowns','Interceptions Thrown','Net Yards per Pass Attempt','Passing First Downs')))
+`Rushing Offense` <- rowMeans(subset(Scaled_stats,select = c('Rushing Attempts','Rushing yards','Rushing Touchdowns','Yards per Rush Attempt','Rushing First Downs','Fumbles')))
+`Total Defense` <- -rowMeans(subset(Scaled_stats,select = c('Points Against','Total Yards Allowed','Total Defensive Plays','Yards Allowed per Play','Total Turnovers Created','Opponents Total First Downs','Opponents Scoring Percentage','Opponent Turnover Percentage')))
+`Passing Defense` <- -rowMeans(subset(Scaled_stats, select = c('Opponents Completions','Opponents Pass Attempts','Opponents Pass Yards','Opponents Passing Touchdowns','Opponents Interceptions Thrown','Opponents Net Yards per Pass Attempt','Opponents Passing First Downs')))
+`Rushing Defense` <- -rowMeans(subset(Scaled_stats, select = c('Opponents Rushing Attempts','Opponents Rushing yards','Opponents Rushing Touchdowns','Opponents Yards per Rush Attempt','Opponents Rushing First Downs', 'Fumbles Forced')))
+
+Scaled_Combined_Stats <- data.frame(Results, `Total Offense`, `Passing Offense`, `Rushing Offense`, `Total Defense`, `Passing Defense`, `Rushing Defense`)
+
+```
+
+## Optimizing the Number of Clusters
+
+Once again, I used "fviz_nbclust()" to find the ideal number of clusters, and once again, I ignored the output. In this case, there was a more clear elbow at 4 or 5 clusters, but I'm going to ignore that and move forward. I think that for this project, 8 clusters just makes the most sense, because the NFL has 8 divisions. If you think that I should have used a different number, go ahead and run it with that many clusters.
+
+```{r}
+fviz_nbclust(Scaled_Combined_Stats, kmeans, method = "wss",k.max = 10, nboot = 100)
+```
+
+## Creating Eight Clusters
+
+If we use the elbow method to determine the optimal number of clusters, we would most likely choose 4 clusters as the optimal number; however, since this is an analysis of the NFL, I want to instead use 8 clusters, like the 8 divisions in the NFL.  
+
+
+```{r}
+cluster2 <- kmeans(Scaled_Combined_Stats, centers = 8, nstart = 1000)
+Scaled_Combined_Stats_Analysis <- Scaled_Combined_Stats
+Scaled_Combined_Stats_Analysis$cluster <- cluster2$cluster
+Scaled_Combined_Stats_Analysis$Team <- All_stats$Team
+```
+
+## Cluster Reveal
+
+```{r results = 'asis'}
+centers <-  round(cluster2$centers, digits = 2)
+
+for(i in 1:8){
+  teams <-  Scaled_Combined_Stats_Analysis %>%
+    filter(cluster == i) %>%
+    select(c(Team,))
+  cat(paste("- `Cluster ", i, " \n", " Record: ",centers[i,1]," Total Offense: ",centers[i,2]," Passing Offense: ",centers[i,3]," Rushing Offense: ",centers[i,4]," Total Defense: ",centers[i,5]," Passing Defense: ",centers[i,6]," Rushing Defense: ",centers[i,7] ,"` \n"))
+  for(j in teams){
+    cat(paste("    - `", j, "` \n"))
+  }
+}
+```
+Interesting findings from this section are their own chapter. You're almost there :)
+
+# Interesting Findings
+Just as a recap, these are the clusters: 
+
+<br>
+
+```{r results = 'asis', echo = FALSE}
+centers <-  round(cluster2$centers, digits = 2)
+
+for(i in 1:8){
+  teams <-  Scaled_Combined_Stats_Analysis %>%
+    filter(cluster == i) %>%
+    select(c(Team,))
+  cat(paste("- `Cluster ", i, " \n", " Record: ",centers[i,1]," Total Offense: ",centers[i,2]," Passing Offense: ",centers[i,3]," Rushing Offense: ",centers[i,4]," Total Defense: ",centers[i,5]," Passing Defense: ",centers[i,6]," Rushing Defense: ",centers[i,7] ,"` \n"))
+  for(j in teams){
+    cat(paste("    - `", j, "` \n"))
+  }
+}
+```
+
+## There Are Five Complete Teams
+
+## 
+
+
+
+```{r echo=FALSE}
+options(warn = defaultW)
+```
+
 

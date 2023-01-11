@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Getting Set Up | NFL Team Clusters</title>
+  <meta name="description" content="Chapter 2 Getting Set Up | NFL Team Clusters" />
+  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Getting Set Up | NFL Team Clusters" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Getting Set Up | NFL Team Clusters" />
+  
+  
+  
+
+<meta name="author" content="Jason Blaisdell" />
+
+
+<meta name="date" content="2023-01-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="first-clustering.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">NFL Clustering</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Project Overview</a></li>
+<li class="chapter" data-level="2" data-path="getting-set-up.html"><a href="getting-set-up.html"><i class="fa fa-check"></i><b>2</b> Getting Set Up</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="getting-set-up.html"><a href="getting-set-up.html#loading-packages"><i class="fa fa-check"></i><b>2.1</b> Loading Packages</a></li>
+<li class="chapter" data-level="2.2" data-path="getting-set-up.html"><a href="getting-set-up.html#loading-data"><i class="fa fa-check"></i><b>2.2</b> Loading Data</a></li>
+<li class="chapter" data-level="2.3" data-path="getting-set-up.html"><a href="getting-set-up.html#trimming-and-renaming-data"><i class="fa fa-check"></i><b>2.3</b> Trimming and Renaming Data</a></li>
+<li class="chapter" data-level="2.4" data-path="getting-set-up.html"><a href="getting-set-up.html#joining-data"><i class="fa fa-check"></i><b>2.4</b> Joining Data</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="first-clustering.html"><a href="first-clustering.html"><i class="fa fa-check"></i><b>3</b> First Clustering</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="first-clustering.html"><a href="first-clustering.html#optimizing-the-number-of-clusters"><i class="fa fa-check"></i><b>3.1</b> Optimizing the Number of Clusters</a></li>
+<li class="chapter" data-level="3.2" data-path="first-clustering.html"><a href="first-clustering.html#creating-eight-clusters"><i class="fa fa-check"></i><b>3.2</b> Creating Eight Clusters</a></li>
+<li class="chapter" data-level="3.3" data-path="first-clustering.html"><a href="first-clustering.html#cluster-reveal"><i class="fa fa-check"></i><b>3.3</b> Cluster Reveal</a></li>
+<li class="chapter" data-level="3.4" data-path="first-clustering.html"><a href="first-clustering.html#interesting-findings"><i class="fa fa-check"></i><b>3.4</b> Interesting Findings</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="first-clustering.html"><a href="first-clustering.html#finding-1"><i class="fa fa-check"></i><b>3.4.1</b> Finding 1</a></li>
+<li class="chapter" data-level="3.4.2" data-path="first-clustering.html"><a href="first-clustering.html#finding-2"><i class="fa fa-check"></i><b>3.4.2</b> Finding 2</a></li>
+<li class="chapter" data-level="3.4.3" data-path="first-clustering.html"><a href="first-clustering.html#finding-3"><i class="fa fa-check"></i><b>3.4.3</b> Finding 3</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="first-clustering.html"><a href="first-clustering.html#flaws"><i class="fa fa-check"></i><b>3.5</b> Flaws</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="second-clustering.html"><a href="second-clustering.html"><i class="fa fa-check"></i><b>4</b> Second Clustering</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="second-clustering.html"><a href="second-clustering.html#reducing-to-7-variables"><i class="fa fa-check"></i><b>4.1</b> Reducing to 7 Variables</a></li>
+<li class="chapter" data-level="4.2" data-path="second-clustering.html"><a href="second-clustering.html#optimizing-the-number-of-clusters-1"><i class="fa fa-check"></i><b>4.2</b> Optimizing the Number of Clusters</a></li>
+<li class="chapter" data-level="4.3" data-path="second-clustering.html"><a href="second-clustering.html#creating-eight-clusters-1"><i class="fa fa-check"></i><b>4.3</b> Creating Eight Clusters</a></li>
+<li class="chapter" data-level="4.4" data-path="second-clustering.html"><a href="second-clustering.html#cluster-reveal-1"><i class="fa fa-check"></i><b>4.4</b> Cluster Reveal</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="interesting-findings-1.html"><a href="interesting-findings-1.html"><i class="fa fa-check"></i><b>5</b> Interesting Findings</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="interesting-findings-1.html"><a href="interesting-findings-1.html#there-are-five-complete-teams"><i class="fa fa-check"></i><b>5.1</b> There Are Five Complete Teams</a></li>
+<li class="chapter" data-level="5.2" data-path="interesting-findings-1.html"><a href="interesting-findings-1.html#section"><i class="fa fa-check"></i><b>5.2</b> </a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">NFL Team Clusters</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="getting-set-up" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Getting Set Up<a href="getting-set-up.html#getting-set-up" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="loading-packages" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Loading Packages<a href="getting-set-up.html#loading-packages" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>As with every other r project, the first element is the packages I needed to complete the project. I needed tidyverse to perform data manipulation, ggplot to plot a couple of figures and the other packages to actually do the clustering.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="getting-set-up.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="getting-set-up.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)  </span>
+<span id="cb1-3"><a href="getting-set-up.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(NbClust)</span>
+<span id="cb1-4"><a href="getting-set-up.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb1-5"><a href="getting-set-up.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-6"><a href="getting-set-up.html#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span></code></pre></div>
+</div>
+<div id="loading-data" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Loading Data<a href="getting-set-up.html#loading-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>I downloaded the tables from Pro Football Reference as .txt files; however, they were still just rows of comma seperated values, so I was able to load them in using read.csv. There were three tables:</p>
+<div style="text-align:left; margin-left: 50px">
+<ol>
+<li>
+Records: Teams’ records, margin of victory, and ratings
+</li>
+<li>
+Offense: Teams’ offensive performance, split out by totals, passing and rushing
+</li>
+<li>
+Defense: Teams’ defensive performance, split out by totals, passing and rushing
+</li>
+</ol>
+</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="getting-set-up.html#cb2-1" aria-hidden="true" tabindex="-1"></a>records <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;C:/Users/Jason Blaisdell/Documents/Grad School/Personal/NFL Clustering/Records.txt&quot;</span>)</span>
+<span id="cb2-2"><a href="getting-set-up.html#cb2-2" aria-hidden="true" tabindex="-1"></a>offense <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;C:/Users/Jason Blaisdell/Documents/Grad School/Personal/NFL Clustering/Offense.txt&quot;</span>)</span>
+<span id="cb2-3"><a href="getting-set-up.html#cb2-3" aria-hidden="true" tabindex="-1"></a>defense <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;C:/Users/Jason Blaisdell/Documents/Grad School/Personal/NFL Clustering/Defense.txt&quot;</span>)</span></code></pre></div>
+</div>
+<div id="trimming-and-renaming-data" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Trimming and Renaming Data<a href="getting-set-up.html#trimming-and-renaming-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Once I loaded the tables in, I removed information that was redundant across tables, such as total points scores, which was in the records table and the offence table.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="getting-set-up.html#cb3-1" aria-hidden="true" tabindex="-1"></a>records <span class="ot">&lt;-</span> records <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="getting-set-up.html#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(Tm,W,L,T,W.L.,MoV,SoS,SRS,OSRS,DSRS))</span>
+<span id="cb3-3"><a href="getting-set-up.html#cb3-3" aria-hidden="true" tabindex="-1"></a>offense <span class="ot">&lt;-</span> offense <span class="sc">%&gt;%</span></span>
+<span id="cb3-4"><a href="getting-set-up.html#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(Tm,PF,Yds,Ply,Y.P,TO,FL,X1stD,Cmp,Att,Yds<span class="fl">.1</span>,TD,Int,NY.A,X1stD<span class="fl">.1</span>,Att<span class="fl">.1</span>,Yds<span class="fl">.2</span>,TD<span class="fl">.1</span>,Y.A,X1stD<span class="fl">.2</span>,Pen,Yds<span class="fl">.3</span>,X1stPy,Sc.,TO.))</span>
+<span id="cb3-5"><a href="getting-set-up.html#cb3-5" aria-hidden="true" tabindex="-1"></a>defense <span class="ot">&lt;-</span> defense <span class="sc">%&gt;%</span></span>
+<span id="cb3-6"><a href="getting-set-up.html#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(Tm,PA,Yds,Ply,Y.P,TO,FL,X1stD,Cmp,Att,Yds<span class="fl">.1</span>,TD,Int,NY.A,X1stD<span class="fl">.1</span>,Att<span class="fl">.1</span>,Yds<span class="fl">.2</span>,TD<span class="fl">.1</span>,Y.A,X1stD<span class="fl">.2</span>,Pen,Yds<span class="fl">.3</span>,X1stPy,Sc.,TO.))</span></code></pre></div>
+<p>Finally, I renamed the statistics to more recognizable names, mostly for my own sanity as it isn’t instantly apparent that the tag “X1std.2” corresponds to rushing first downs. I also multiplied the values of some stats by negative one so that a bigger number was better for all offensive statistics and a smaller number was better for all defensive statistics. It doesn’t make sense to throw -13 interceptions, but once the statistics were scaled, this value simply became a z-score and if a team threw fewer interceptions than the league average, they will have a positive z-score.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="getting-set-up.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(records)[<span class="fu">names</span>(records) <span class="sc">==</span> <span class="fu">c</span>(<span class="st">&#39;Tm&#39;</span>,<span class="st">&#39;W&#39;</span>,<span class="st">&#39;L&#39;</span>,<span class="st">&#39;T&#39;</span>,<span class="st">&#39;W.L.&#39;</span>,<span class="st">&#39;MoV&#39;</span>,<span class="st">&#39;SoS&#39;</span>,<span class="st">&#39;SRS&#39;</span>,<span class="st">&#39;OSRS&#39;</span>,<span class="st">&#39;DSRS&#39;</span>)] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Team&#39;</span>,<span class="st">&#39;Wins&#39;</span>,<span class="st">&#39;Losses&#39;</span>,<span class="st">&#39;Ties&#39;</span>,<span class="st">&#39;Win Percent&#39;</span>,<span class="st">&#39;Average Margin of Victory&#39;</span>,<span class="st">&#39;Strength of Schedule&#39;</span>,<span class="st">&#39;Simple Rating System (SRS)&#39;</span>,<span class="st">&#39;Offensive SRS&#39;</span>,<span class="st">&#39;Defensive SRS&#39;</span>)</span>
+<span id="cb4-2"><a href="getting-set-up.html#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="getting-set-up.html#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(offense)[<span class="fu">names</span>(offense) <span class="sc">==</span> <span class="fu">c</span>(<span class="st">&#39;Tm&#39;</span>,<span class="st">&#39;PF&#39;</span>,<span class="st">&#39;Yds&#39;</span>,<span class="st">&#39;Ply&#39;</span>,<span class="st">&#39;Y.P&#39;</span>,<span class="st">&#39;TO&#39;</span>,<span class="st">&#39;FL&#39;</span>,<span class="st">&#39;X1stD&#39;</span>,<span class="st">&#39;Cmp&#39;</span>,<span class="st">&#39;Att&#39;</span>,<span class="st">&#39;Yds.1&#39;</span>,<span class="st">&#39;TD&#39;</span>,<span class="st">&#39;Int&#39;</span>,<span class="st">&#39;NY.A&#39;</span>,<span class="st">&#39;X1stD.1&#39;</span>,<span class="st">&#39;Att.1&#39;</span>,<span class="st">&#39;Yds.2&#39;</span>,<span class="st">&#39;TD.1&#39;</span>,<span class="st">&#39;Y.A&#39;</span>,<span class="st">&#39;X1stD.2&#39;</span>,<span class="st">&#39;Pen&#39;</span>,<span class="st">&#39;Yds.3&#39;</span>,<span class="st">&#39;X1stPy&#39;</span>,<span class="st">&#39;Sc.&#39;</span>,<span class="st">&#39;TO.&#39;</span>)] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Team&#39;</span>,<span class="st">&#39;Points For&#39;</span>,<span class="st">&#39;Total Yards&#39;</span>,<span class="st">&#39;Total Offensive Plays&#39;</span>,<span class="st">&#39;Yards per Play&#39;</span>,<span class="st">&#39;Total Turnovers&#39;</span>,<span class="st">&#39;Fumbles&#39;</span>,<span class="st">&#39;Total First Downs&#39;</span>,<span class="st">&#39;Completions&#39;</span>,<span class="st">&#39;Pass Attempts&#39;</span>,<span class="st">&#39;Pass Yards&#39;</span>,<span class="st">&#39;Passing Touchdowns&#39;</span>,<span class="st">&#39;Interceptions Thrown&#39;</span>,<span class="st">&#39;Net Yards per Pass Attempt&#39;</span>,<span class="st">&#39;Passing First Downs&#39;</span>,<span class="st">&#39;Rushing Attempts&#39;</span>,<span class="st">&#39;Rushing yards&#39;</span>,<span class="st">&#39;Rushing Touchdowns&#39;</span>,<span class="st">&#39;Yards per Rush Attempt&#39;</span>,<span class="st">&#39;Rushing First Downs&#39;</span>,<span class="st">&#39;Penalties Committed&#39;</span>,<span class="st">&#39;Penalty Yards&#39;</span>,<span class="st">&#39;First Downs off Penalties&#39;</span>,<span class="st">&#39;Scoring Percentage&#39;</span>,<span class="st">&#39;Turnover Percentage&#39;</span>)</span>
+<span id="cb4-4"><a href="getting-set-up.html#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="getting-set-up.html#cb4-5" aria-hidden="true" tabindex="-1"></a>offense<span class="sc">$</span><span class="st">`</span><span class="at">Total Turnovers</span><span class="st">`</span> <span class="ot">&lt;-</span>offense<span class="sc">$</span><span class="st">`</span><span class="at">Total Turnovers</span><span class="st">`</span> <span class="sc">*</span> <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb4-6"><a href="getting-set-up.html#cb4-6" aria-hidden="true" tabindex="-1"></a>offense<span class="sc">$</span>Fumbles <span class="ot">&lt;-</span>offense<span class="sc">$</span>Fumbles <span class="sc">*</span> <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb4-7"><a href="getting-set-up.html#cb4-7" aria-hidden="true" tabindex="-1"></a>offense<span class="sc">$</span><span class="st">`</span><span class="at">Interceptions Thrown</span><span class="st">`</span> <span class="ot">&lt;-</span>offense<span class="sc">$</span><span class="st">`</span><span class="at">Interceptions Thrown</span><span class="st">`</span> <span class="sc">*</span> <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb4-8"><a href="getting-set-up.html#cb4-8" aria-hidden="true" tabindex="-1"></a>offense<span class="sc">$</span><span class="st">`</span><span class="at">Turnover Percentage</span><span class="st">`</span> <span class="ot">&lt;-</span>offense<span class="sc">$</span><span class="st">`</span><span class="at">Turnover Percentage</span><span class="st">`</span> <span class="sc">*</span> <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb4-9"><a href="getting-set-up.html#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="getting-set-up.html#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(defense)[<span class="fu">names</span>(defense) <span class="sc">==</span> <span class="fu">c</span>(<span class="st">&#39;Tm&#39;</span>,<span class="st">&#39;PA&#39;</span>,<span class="st">&#39;Yds&#39;</span>,<span class="st">&#39;Ply&#39;</span>,<span class="st">&#39;Y.P&#39;</span>,<span class="st">&#39;TO&#39;</span>,<span class="st">&#39;FL&#39;</span>,<span class="st">&#39;X1stD&#39;</span>,<span class="st">&#39;Cmp&#39;</span>,<span class="st">&#39;Att&#39;</span>,<span class="st">&#39;Yds.1&#39;</span>,<span class="st">&#39;TD&#39;</span>,<span class="st">&#39;Int&#39;</span>,<span class="st">&#39;NY.A&#39;</span>,<span class="st">&#39;X1stD.1&#39;</span>,<span class="st">&#39;Att.1&#39;</span>,<span class="st">&#39;Yds.2&#39;</span>,<span class="st">&#39;TD.1&#39;</span>,<span class="st">&#39;Y.A&#39;</span>,<span class="st">&#39;X1stD.2&#39;</span>,<span class="st">&#39;Pen&#39;</span>,<span class="st">&#39;Yds.3&#39;</span>,<span class="st">&#39;X1stPy&#39;</span>,<span class="st">&#39;Sc.&#39;</span>,<span class="st">&#39;TO.&#39;</span>)] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Team&#39;</span>,<span class="st">&#39;Points Against&#39;</span>,<span class="st">&#39;Total Yards Allowed&#39;</span>,<span class="st">&#39;Total Defensive Plays&#39;</span>,<span class="st">&#39;Yards Allowed per Play&#39;</span>,<span class="st">&#39;Total Turnovers Created&#39;</span>,<span class="st">&#39;Fumbles Forced&#39;</span>,<span class="st">&#39;Opponents Total First Downs&#39;</span>,<span class="st">&#39;Opponents Completions&#39;</span>,<span class="st">&#39;Opponents Pass Attempts&#39;</span>,<span class="st">&#39;Opponents Pass Yards&#39;</span>,<span class="st">&#39;Opponents Passing Touchdowns&#39;</span>,<span class="st">&#39;Opponents Interceptions Thrown&#39;</span>,<span class="st">&#39;Opponents Net Yards per Pass Attempt&#39;</span>,<span class="st">&#39;Opponents Passing First Downs&#39;</span>,<span class="st">&#39;Opponents Rushing Attempts&#39;</span>,<span class="st">&#39;Opponents Rushing yards&#39;</span>,<span class="st">&#39;Opponents Rushing Touchdowns&#39;</span>,<span class="st">&#39;Opponents Yards per Rush Attempt&#39;</span>,<span class="st">&#39;Opponents Rushing First Downs&#39;</span>,<span class="st">&#39;Defensive Penalties Committed&#39;</span>,<span class="st">&#39;Defensive Penalty Yards&#39;</span>,<span class="st">&#39;First Downs Given up off Penalties&#39;</span>,<span class="st">&#39;Opponents Scoring Percentage&#39;</span>,<span class="st">&#39;Opponent Turnover Percentage&#39;</span>)</span>
+<span id="cb4-11"><a href="getting-set-up.html#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="getting-set-up.html#cb4-12" aria-hidden="true" tabindex="-1"></a>defense<span class="sc">$</span><span class="st">`</span><span class="at">Total Turnovers Created</span><span class="st">`</span> <span class="ot">&lt;-</span> defense<span class="sc">$</span><span class="st">`</span><span class="at">Total Turnovers Created</span><span class="st">`</span> <span class="sc">*</span> <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb4-13"><a href="getting-set-up.html#cb4-13" aria-hidden="true" tabindex="-1"></a>defense<span class="sc">$</span><span class="st">`</span><span class="at">Fumbles Forced</span><span class="st">`</span> <span class="ot">&lt;-</span> defense<span class="sc">$</span><span class="st">`</span><span class="at">Fumbles Forced</span><span class="st">`</span> <span class="sc">*</span> <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb4-14"><a href="getting-set-up.html#cb4-14" aria-hidden="true" tabindex="-1"></a>defense<span class="sc">$</span><span class="st">`</span><span class="at">Opponents Interceptions Thrown</span><span class="st">`</span> <span class="ot">&lt;-</span> defense<span class="sc">$</span><span class="st">`</span><span class="at">Opponents Interceptions Thrown</span><span class="st">`</span> <span class="sc">*</span> <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb4-15"><a href="getting-set-up.html#cb4-15" aria-hidden="true" tabindex="-1"></a>defense<span class="sc">$</span><span class="st">`</span><span class="at">Opponent Turnover Percentage</span><span class="st">`</span> <span class="ot">&lt;-</span> defense<span class="sc">$</span><span class="st">`</span><span class="at">Opponent Turnover Percentage</span><span class="st">`</span> <span class="sc">*</span> <span class="sc">-</span><span class="dv">1</span></span></code></pre></div>
+</div>
+<div id="joining-data" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Joining Data<a href="getting-set-up.html#joining-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The “records” data frame did not have an average team, so I created one using the averages of all of the other teams. This was important because the other data frames had an average team and I wanted the league average to appear in one of my clusters.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="getting-set-up.html#cb5-1" aria-hidden="true" tabindex="-1"></a>records_avg <span class="ot">&lt;-</span>  <span class="fu">summarise_all</span>(records, mean)</span>
+<span id="cb5-2"><a href="getting-set-up.html#cb5-2" aria-hidden="true" tabindex="-1"></a>records_avg[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&#39;Avg Team&#39;</span></span>
+<span id="cb5-3"><a href="getting-set-up.html#cb5-3" aria-hidden="true" tabindex="-1"></a>records <span class="ot">&lt;-</span> <span class="fu">rbind</span>(records, records_avg)</span></code></pre></div>
+<p>Finally, I was ready to join my three data frames into one. I used an inner join so I could check the number of observations in the new data frame to quickly see if I had any teams named incorrectly, as any team names that didn’t match would make the number of observations drop. The first time I ran this, it was a problem due to the fact that the team names in the records data frame included ’*’ or ‘+’ for teams that won their divisions or were wildcards respectively. I removed these in the original txt files and then re-ran all of the code.</p>
+<p><br></p>
+<p>Two important data frames were created in this step:</p>
+<div style="text-align:left; margin-left: 50px">
+<li>
+All_stats: Inner joined data frame with all of the original statistics for every team
+</li>
+<li>
+Scaled_stats: Scaled version of the joined data without the “Team” column (the teams are still in the same order)
+</li>
+</div>
+<p><br></p>
+<p>It is important to have the scaled data frame to prevent the clustering from being weighted more by large statistics, like passing yards, than by smaller statistics, like passing touchdowns. The “Team” column also needed to be removed to allow the clustering to run only on the team statistics.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="getting-set-up.html#cb6-1" aria-hidden="true" tabindex="-1"></a>All_stats <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(records, <span class="fu">inner_join</span>(offense, defense, <span class="at">by =</span> <span class="st">&quot;Team&quot;</span>), <span class="at">by =</span> <span class="st">&quot;Team&quot;</span>)</span>
+<span id="cb6-2"><a href="getting-set-up.html#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="getting-set-up.html#cb6-3" aria-hidden="true" tabindex="-1"></a>Scaled_stats <span class="ot">&lt;-</span> All_stats</span>
+<span id="cb6-4"><a href="getting-set-up.html#cb6-4" aria-hidden="true" tabindex="-1"></a>Scaled_stats[,<span class="fu">colnames</span>(All_stats)[<span class="fu">colnames</span>(All_stats)<span class="sc">!=</span><span class="st">&#39;Team&#39;</span>]] <span class="ot">&lt;-</span> <span class="fu">scale</span>(All_stats[,<span class="fu">colnames</span>(All_stats)[<span class="fu">colnames</span>(All_stats)<span class="sc">!=</span><span class="st">&#39;Team&#39;</span>]])</span>
+<span id="cb6-5"><a href="getting-set-up.html#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="getting-set-up.html#cb6-6" aria-hidden="true" tabindex="-1"></a>Scaled_stats <span class="ot">&lt;-</span> Scaled_stats[,<span class="fu">colnames</span>(Scaled_stats)[<span class="fu">colnames</span>(Scaled_stats)<span class="sc">!=</span><span class="st">&#39;Team&#39;</span>]]</span></code></pre></div>
+<p>Now that I had created my data frame, I was ready to do some clustering</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="first-clustering.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/blaisdelljason/NFL-Clustering-Bookdown/edit/master/index.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/blaisdelljason/NFL-Clustering-Bookdown/blob/master/index.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
