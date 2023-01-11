@@ -194,7 +194,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="reducing-to-7-variables" class="section level2 hasAnchor" number="4.1">
 <h2><span class="header-section-number">4.1</span> Reducing to 7 Variables<a href="second-clustering.html#reducing-to-7-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In order to have fewer variables to look through to find what makes a cluster unique, I reduced the number of variables into the following more interpretable variables:</p>
-<p><br></p>
 <div style="text-align:left; margin-left: 50px">
 <li>
 Results
@@ -239,7 +238,7 @@ Note: As I am writing this I am considering, would there be an advantage to brea
 <h2><span class="header-section-number">4.2</span> Optimizing the Number of Clusters<a href="second-clustering.html#optimizing-the-number-of-clusters-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Once again, I used “fviz_nbclust()” to find the ideal number of clusters, and once again, I ignored the output. In this case, there was a more clear elbow at 4 or 5 clusters, but I’m going to ignore that and move forward. I think that for this project, 8 clusters just makes the most sense, because the NFL has 8 divisions. If you think that I should have used a different number, go ahead and run it with that many clusters.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="second-clustering.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_nbclust</span>(Scaled_Combined_Stats, kmeans, <span class="at">method =</span> <span class="st">&quot;wss&quot;</span>,<span class="at">k.max =</span> <span class="dv">10</span>, <span class="at">nboot =</span> <span class="dv">100</span>)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 <div id="creating-eight-clusters-1" class="section level2 hasAnchor" number="4.3">
 <h2><span class="header-section-number">4.3</span> Creating Eight Clusters<a href="second-clustering.html#creating-eight-clusters-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
