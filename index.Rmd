@@ -30,7 +30,11 @@ I began by collecting 58 statistics measuring team performance for the season fr
 </div>
 
 <br>
-With the new, reduced number of variables, I redid the clustering. In the end, I made 8 clusters, taking inspiration from the NFL's 8 divisions. These clusters had 2-7 teams, with the largest cluster also having the league average. These clusters and their defining characteristics will be explored in Chapter 4. 
+With the new, reduced number of variables, I redid the clustering. In the end, I made 8 clusters, taking inspiration from the NFL's 8 divisions. These clusters had 2-7 teams, with the largest cluster also having the league average. 
+
+<br>
+
+Jump to Chapter 5 if you just want to see the clusters and some findings! 
 
 # Getting Set Up
 
