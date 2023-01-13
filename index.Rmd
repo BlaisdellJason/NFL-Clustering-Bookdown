@@ -76,7 +76,8 @@ Once I loaded the tables in, I removed information that was redundant across tab
 ```{r}
 
 records <- records %>%
-  select(c(Tm,W,L,T,W.L.,MoV,SoS,SRS,OSRS,DSRS))
+  select(c(Tm,W,L,T,W.L.,MoV,SoS,SRS,OSRS,DSRS)) %>%
+  mutate("Games Played" = W+L)
 offense <- offense %>%
   select(c(Tm,PF,Yds,Ply,Y.P,TO,FL,X1stD,Cmp,Att,Yds.1,TD,Int,NY.A,X1stD.1,Att.1,Yds.2,TD.1,Y.A,X1stD.2,Pen,Yds.3,X1stPy,Sc.,TO.))
 defense <- defense %>%
@@ -134,6 +135,9 @@ It is important to have the scaled data frame to prevent the clustering from bei
 All_stats <- inner_join(records, inner_join(offense, defense, by = "Team"), by = "Team")
 
 Scaled_stats <- All_stats
+
+Scaled_stats %>% select_if(is.numeric) %>% select(-`Scoring Percentage`, -`Turnover Percentage`, -`Opponent Turnover Percentage`, - `Opponent Turnover Percentage`, -`Win Percent`, -`Simple Rating System (SRS)`, -`Offensive SRS`, -`Defensive SRS`,-`Strength of Schedule`) %>% mutate_at(vars(-`Games Played`), funs(./`Games Played`))
+
 Scaled_stats[,colnames(All_stats)[colnames(All_stats)!='Team']] <- scale(All_stats[,colnames(All_stats)[colnames(All_stats)!='Team']])
 
 Scaled_stats <- Scaled_stats[,colnames(Scaled_stats)[colnames(Scaled_stats)!='Team']]

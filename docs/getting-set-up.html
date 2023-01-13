@@ -23,7 +23,7 @@
 <meta name="author" content="Jason Blaisdell" />
 
 
-<meta name="date" content="2023-01-11" />
+<meta name="date" content="2023-01-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -225,11 +225,12 @@ Defense: Teams’ defensive performance, split out by totals, passing and rushin
 <h2><span class="header-section-number">2.3</span> Trimming and Renaming Data<a href="getting-set-up.html#trimming-and-renaming-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Once I loaded the tables in, I removed information that was redundant across tables, such as total points scores, which was in the records table and the offence table.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="getting-set-up.html#cb3-1" aria-hidden="true" tabindex="-1"></a>records <span class="ot">&lt;-</span> records <span class="sc">%&gt;%</span></span>
-<span id="cb3-2"><a href="getting-set-up.html#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(Tm,W,L,T,W.L.,MoV,SoS,SRS,OSRS,DSRS))</span>
-<span id="cb3-3"><a href="getting-set-up.html#cb3-3" aria-hidden="true" tabindex="-1"></a>offense <span class="ot">&lt;-</span> offense <span class="sc">%&gt;%</span></span>
-<span id="cb3-4"><a href="getting-set-up.html#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(Tm,PF,Yds,Ply,Y.P,TO,FL,X1stD,Cmp,Att,Yds<span class="fl">.1</span>,TD,Int,NY.A,X1stD<span class="fl">.1</span>,Att<span class="fl">.1</span>,Yds<span class="fl">.2</span>,TD<span class="fl">.1</span>,Y.A,X1stD<span class="fl">.2</span>,Pen,Yds<span class="fl">.3</span>,X1stPy,Sc.,TO.))</span>
-<span id="cb3-5"><a href="getting-set-up.html#cb3-5" aria-hidden="true" tabindex="-1"></a>defense <span class="ot">&lt;-</span> defense <span class="sc">%&gt;%</span></span>
-<span id="cb3-6"><a href="getting-set-up.html#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(Tm,PA,Yds,Ply,Y.P,TO,FL,X1stD,Cmp,Att,Yds<span class="fl">.1</span>,TD,Int,NY.A,X1stD<span class="fl">.1</span>,Att<span class="fl">.1</span>,Yds<span class="fl">.2</span>,TD<span class="fl">.1</span>,Y.A,X1stD<span class="fl">.2</span>,Pen,Yds<span class="fl">.3</span>,X1stPy,Sc.,TO.))</span></code></pre></div>
+<span id="cb3-2"><a href="getting-set-up.html#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(Tm,W,L,T,W.L.,MoV,SoS,SRS,OSRS,DSRS)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="getting-set-up.html#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">&quot;Games Played&quot;</span> <span class="ot">=</span> W<span class="sc">+</span>L)</span>
+<span id="cb3-4"><a href="getting-set-up.html#cb3-4" aria-hidden="true" tabindex="-1"></a>offense <span class="ot">&lt;-</span> offense <span class="sc">%&gt;%</span></span>
+<span id="cb3-5"><a href="getting-set-up.html#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(Tm,PF,Yds,Ply,Y.P,TO,FL,X1stD,Cmp,Att,Yds<span class="fl">.1</span>,TD,Int,NY.A,X1stD<span class="fl">.1</span>,Att<span class="fl">.1</span>,Yds<span class="fl">.2</span>,TD<span class="fl">.1</span>,Y.A,X1stD<span class="fl">.2</span>,Pen,Yds<span class="fl">.3</span>,X1stPy,Sc.,TO.))</span>
+<span id="cb3-6"><a href="getting-set-up.html#cb3-6" aria-hidden="true" tabindex="-1"></a>defense <span class="ot">&lt;-</span> defense <span class="sc">%&gt;%</span></span>
+<span id="cb3-7"><a href="getting-set-up.html#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(Tm,PA,Yds,Ply,Y.P,TO,FL,X1stD,Cmp,Att,Yds<span class="fl">.1</span>,TD,Int,NY.A,X1stD<span class="fl">.1</span>,Att<span class="fl">.1</span>,Yds<span class="fl">.2</span>,TD<span class="fl">.1</span>,Y.A,X1stD<span class="fl">.2</span>,Pen,Yds<span class="fl">.3</span>,X1stPy,Sc.,TO.))</span></code></pre></div>
 <p>Finally, I renamed the statistics to more recognizable names, mostly for my own sanity as it isn’t instantly apparent that the tag “X1std.2” corresponds to rushing first downs. I also multiplied the values of some stats by negative one so that a bigger number was better for all offensive statistics and a smaller number was better for all defensive statistics. It doesn’t make sense to throw -13 interceptions, but once the statistics were scaled, this value simply became a z-score and if a team threw fewer interceptions than the league average, they will have a positive z-score.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="getting-set-up.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(records)[<span class="fu">names</span>(records) <span class="sc">==</span> <span class="fu">c</span>(<span class="st">&#39;Tm&#39;</span>,<span class="st">&#39;W&#39;</span>,<span class="st">&#39;L&#39;</span>,<span class="st">&#39;T&#39;</span>,<span class="st">&#39;W.L.&#39;</span>,<span class="st">&#39;MoV&#39;</span>,<span class="st">&#39;SoS&#39;</span>,<span class="st">&#39;SRS&#39;</span>,<span class="st">&#39;OSRS&#39;</span>,<span class="st">&#39;DSRS&#39;</span>)] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Team&#39;</span>,<span class="st">&#39;Wins&#39;</span>,<span class="st">&#39;Losses&#39;</span>,<span class="st">&#39;Ties&#39;</span>,<span class="st">&#39;Win Percent&#39;</span>,<span class="st">&#39;Average Margin of Victory&#39;</span>,<span class="st">&#39;Strength of Schedule&#39;</span>,<span class="st">&#39;Simple Rating System (SRS)&#39;</span>,<span class="st">&#39;Offensive SRS&#39;</span>,<span class="st">&#39;Defensive SRS&#39;</span>)</span>
 <span id="cb4-2"><a href="getting-set-up.html#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -269,9 +270,243 @@ Scaled_stats: Scaled version of the joined data without the “Team” column (t
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="getting-set-up.html#cb6-1" aria-hidden="true" tabindex="-1"></a>All_stats <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(records, <span class="fu">inner_join</span>(offense, defense, <span class="at">by =</span> <span class="st">&quot;Team&quot;</span>), <span class="at">by =</span> <span class="st">&quot;Team&quot;</span>)</span>
 <span id="cb6-2"><a href="getting-set-up.html#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="getting-set-up.html#cb6-3" aria-hidden="true" tabindex="-1"></a>Scaled_stats <span class="ot">&lt;-</span> All_stats</span>
-<span id="cb6-4"><a href="getting-set-up.html#cb6-4" aria-hidden="true" tabindex="-1"></a>Scaled_stats[,<span class="fu">colnames</span>(All_stats)[<span class="fu">colnames</span>(All_stats)<span class="sc">!=</span><span class="st">&#39;Team&#39;</span>]] <span class="ot">&lt;-</span> <span class="fu">scale</span>(All_stats[,<span class="fu">colnames</span>(All_stats)[<span class="fu">colnames</span>(All_stats)<span class="sc">!=</span><span class="st">&#39;Team&#39;</span>]])</span>
-<span id="cb6-5"><a href="getting-set-up.html#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="getting-set-up.html#cb6-6" aria-hidden="true" tabindex="-1"></a>Scaled_stats <span class="ot">&lt;-</span> Scaled_stats[,<span class="fu">colnames</span>(Scaled_stats)[<span class="fu">colnames</span>(Scaled_stats)<span class="sc">!=</span><span class="st">&#39;Team&#39;</span>]]</span></code></pre></div>
+<span id="cb6-4"><a href="getting-set-up.html#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="getting-set-up.html#cb6-5" aria-hidden="true" tabindex="-1"></a>Scaled_stats <span class="sc">%&gt;%</span> <span class="fu">select_if</span>(is.numeric) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="st">`</span><span class="at">Scoring Percentage</span><span class="st">`</span>, <span class="sc">-</span><span class="st">`</span><span class="at">Turnover Percentage</span><span class="st">`</span>, <span class="sc">-</span><span class="st">`</span><span class="at">Opponent Turnover Percentage</span><span class="st">`</span>, <span class="sc">-</span> <span class="st">`</span><span class="at">Opponent Turnover Percentage</span><span class="st">`</span>, <span class="sc">-</span><span class="st">`</span><span class="at">Win Percent</span><span class="st">`</span>, <span class="sc">-</span><span class="st">`</span><span class="at">Simple Rating System (SRS)</span><span class="st">`</span>, <span class="sc">-</span><span class="st">`</span><span class="at">Offensive SRS</span><span class="st">`</span>, <span class="sc">-</span><span class="st">`</span><span class="at">Defensive SRS</span><span class="st">`</span>,<span class="sc">-</span><span class="st">`</span><span class="at">Strength of Schedule</span><span class="st">`</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate_at</span>(<span class="fu">vars</span>(<span class="sc">-</span><span class="st">`</span><span class="at">Games Played</span><span class="st">`</span>), <span class="fu">funs</span>(.<span class="sc">/</span><span class="st">`</span><span class="at">Games Played</span><span class="st">`</span>))</span></code></pre></div>
+<pre><code>##         Wins    Losses   Ties Average Margin of Victory Games Played Points For Total Yards Total Offensive Plays
+## 1  0.8235294 0.1764706 0.0000               0.458823529           17   28.05882    389.0588              66.11765
+## 2  0.7058824 0.2941176 0.0000               0.435294118           17   27.47059    354.9412              65.52941
+## 3  0.5625000 0.4375000 0.0625              -0.025000000           16   22.81250    354.7500              68.06250
+## 4  0.5000000 0.5000000 0.0625              -0.081250000           16   20.06250    350.9375              71.25000
+## 5  0.7647059 0.2352941 0.0000              -0.011764706           17   24.94118    361.4706              66.05882
+## 6  0.5294118 0.4705882 0.0000               0.088235294           17   26.64706    380.0000              64.23529
+## 7  0.4705882 0.5294118 0.0000              -0.005882353           17   21.76471    337.9412              61.82353
+## 8  0.1764706 0.8235294 0.0000              -0.476470588           17   19.17647    307.8235              58.41176
+## 9  0.4705882 0.5294118 0.0000              -0.152941176           17   18.41176    346.7059              68.17647
+## 10 0.4117647 0.5882353 0.0000              -0.094117647           17   20.41176    306.2353              57.41176
+## 11 0.4117647 0.5882353 0.0000              -0.052941176           17   19.41176    333.7647              59.70588
+## 12 0.4117647 0.5882353 0.0000              -0.070588235           17   21.47059    318.6471              59.47059
+## 13 0.7647059 0.2352941 0.0000               0.600000000           17   26.47059    365.6471              61.58824
+## 14 0.5294118 0.4705882 0.0000               0.023529412           17   23.94118    351.5294              61.41176
+## 15 0.2941176 0.7058824 0.0000              -0.264705882           17   18.05882    280.5294              58.88235
+## 16 0.2352941 0.7647059 0.0000              -0.376470588           17   20.00000    323.4706              67.29412
+## 17 0.8125000 0.1875000 0.0000               0.662500000           16   28.43750    397.5625              64.81250
+## 18 0.5294118 0.4705882 0.0000              -0.005882353           17   23.35294    364.5294              59.35294
+## 19 0.4705882 0.5294118 0.0000               0.058823529           17   21.41176    314.5882              59.17647
+## 20 0.4117647 0.5882353 0.0000              -0.070588235           17   17.41176    318.1765              63.17647
+##    Yards per Play Total Turnovers    Fumbles Total First Downs Completions Pass Attempts Pass Yards
+## 1       0.3470588      -1.1176471 -0.5882353          22.64706    20.58824      31.52941   241.4706
+## 2       0.3176471      -1.3529412 -0.2941176          20.41176    20.88235      32.70588   219.7647
+## 3       0.3250000      -1.0000000 -0.6250000          22.00000    21.62500      32.50000   197.3125
+## 4       0.3062500      -1.4375000 -0.4375000          21.18750    21.50000      34.62500   217.0000
+## 5       0.3235294      -1.3529412 -0.4705882          22.47059    26.35294      39.52941   263.7647
+## 6       0.3470588      -0.8823529 -0.4705882          22.11765    22.52941      34.58824   251.8235
+## 7       0.3235294      -1.2941176 -0.5882353          19.64706    21.41176      33.11765   213.6471
+## 8       0.3117647      -1.4705882 -0.5882353          16.35294    13.11765      22.17647   130.5294
+## 9       0.3000000      -1.2941176 -0.7058824          20.35294    29.35294      44.17647   269.7647
+## 10      0.3117647      -1.2352941 -0.4705882          16.52941    15.70588      26.88235   176.2353
+## 11      0.3294118      -1.4705882 -0.6470588          17.94118    19.88235      30.11765   217.1765
+## 12      0.3176471      -1.2352941 -0.7058824          19.41176    15.11765      24.41176   158.7647
+## 13      0.3470588      -1.0000000 -0.4705882          20.41176    19.88235      30.11765   226.8235
+## 14      0.3352941      -1.3529412 -0.6470588          20.35294    23.47059      33.70588   231.4118
+## 15      0.2823529      -1.3529412 -0.4705882          17.23529    20.41176      31.23529   182.8235
+## 16      0.2823529      -1.4705882 -0.4705882          19.17647    25.47059      39.05882   213.2941
+## 17      0.3812500      -1.6875000 -0.8125000          22.93750    22.56250      35.87500   258.0625
+## 18      0.3588235      -1.2352941 -0.3529412          20.11765    21.64706      34.35294   265.3529
+## 19      0.3117647      -1.3529412 -0.5294118          16.94118    21.05882      31.76471   208.0000
+## 20      0.2941176      -1.3529412 -0.5294118          17.29412    21.00000      36.88235   219.0000
+##    Passing Touchdowns Interceptions Thrown Net Yards per Pass Attempt Passing First Downs Rushing Attempts
+## 1           1.4705882           -0.5294118                  0.4176471           11.470588         32.00000
+## 2           1.6470588           -1.0588235                  0.3764706           11.411765         31.23529
+## 3           1.0625000           -0.3750000                  0.3437500           10.625000         32.50000
+## 4           1.5000000           -1.0000000                  0.3625000           11.500000         33.62500
+## 5           1.7647059           -0.8823529                  0.3647059           14.352941         23.76471
+## 6           1.7058824           -0.4117647                  0.4117647           13.411765         28.23529
+## 7           1.5882353           -0.7058824                  0.3588235           10.941176         26.82353
+## 8           1.1176471           -0.8823529                  0.3000000            6.411765         32.82353
+## 9           1.5294118           -0.5882353                  0.3470588           14.117647         22.70588
+## 10          0.9411765           -0.7647059                  0.3588235            8.117647         28.41176
+## 11          1.4117647           -0.8235294                  0.3941176           10.647059         27.35294
+## 12          1.0000000           -0.5294118                  0.3529412            8.705882         32.88235
+## 13          1.7647059           -0.5294118                  0.4176471           11.058824         29.64706
+## 14          1.7647059           -0.7058824                  0.3764706           12.117647         25.00000
+## 15          0.9411765           -0.8823529                  0.3117647           10.647059         24.17647
+## 16          1.0000000           -1.0000000                  0.3000000           11.117647         25.52941
+## 17          2.1875000           -0.8750000                  0.4250000           13.250000         26.87500
+## 18          1.7647059           -0.8823529                  0.4294118           12.941176         22.94118
+## 19          1.1176471           -0.8235294                  0.3588235            9.764706         25.00000
+## 20          0.8823529           -0.8235294                  0.3294118           11.235294         23.82353
+##    Rushing yards Rushing Touchdowns Yards per Rush Attempt Rushing First Downs Penalties Committed Penalty Yards
+## 1      147.58824          1.8823529              0.2705882            9.470588            5.294118      40.11765
+## 2      135.17647          1.4117647              0.2529412            7.588235            6.117647      49.52941
+## 3      157.43750          1.3125000              0.3000000            9.375000            6.625000      51.68750
+## 4      133.93750          0.5625000              0.2500000            7.750000            5.750000      50.31250
+## 5       97.70588          1.0588235              0.2411765            5.470588            5.176471      40.52941
+## 6      128.17647          1.3529412              0.2647059            6.705882            5.294118      45.47059
+## 7      124.29412          0.7058824              0.2705882            6.823529            5.235294      43.94118
+## 8      177.29412          1.0588235              0.3176471            8.705882            4.705882      44.35294
+## 9       76.94118          0.2941176              0.2000000            4.647059            5.823529      46.64706
+## 10     130.00000          0.9411765              0.2705882            7.000000            6.117647      50.70588
+## 11     116.58824          0.7058824              0.2529412            6.058824            5.823529      49.47059
+## 12     159.88235          1.0000000              0.2882353            8.941176            4.000000      34.94118
+## 13     138.82353          1.1764706              0.2764706            7.764706            5.529412      42.94118
+## 14     120.11765          0.7058824              0.2823529            6.235294            6.235294      50.23529
+## 15      97.70588          0.8823529              0.2352941            5.235294            4.470588      38.52941
+## 16     110.17647          0.8823529              0.2529412            6.764706            6.941176      53.88235
+## 17     139.50000          0.9375000              0.3250000            8.000000            5.750000      44.31250
+## 18      99.17647          0.7058824              0.2529412            5.470588            6.529412      51.82353
+## 19     106.58824          0.7058824              0.2529412            5.764706            6.117647      49.47059
+## 20      99.17647          0.7647059              0.2470588            4.647059            5.352941      50.94118
+##    First Downs off Penalties Points Against Total Yards Allowed Total Defensive Plays Yards Allowed per Play
+## 1                   1.705882       20.23529            301.4706              63.05882              0.2823529
+## 2                   1.411765       20.11765            330.1765              64.76471              0.3000000
+## 3                   2.000000       23.18750            380.5625              67.37500              0.3500000
+## 4                   1.937500       21.43750            323.6250              62.37500              0.3250000
+## 5                   2.647059       25.11765            388.7059              65.76471              0.3470588
+## 6                   2.000000       25.11765            392.3529              63.29412              0.3647059
+## 7                   1.882353       21.82353            336.5294              58.29412              0.3411765
+## 8                   1.235294       27.23529            375.8824              61.35294              0.3588235
+## 9                   1.588235       21.05882            324.2941              63.11765              0.3000000
+## 10                  1.411765       22.00000            350.1765              64.88235              0.3176471
+## 11                  1.235294       20.29412            314.8235              63.29412              0.2941176
+## 12                  1.764706       22.70588            362.1176              63.64706              0.3352941
+## 13                  1.588235       16.29412            300.5882              60.35294              0.2941176
+## 14                  2.000000       23.58824            361.7059              65.70588              0.3235294
+## 15                  1.352941       22.58824            341.0588              61.70588              0.3235294
+## 16                  1.294118       26.41176            348.8824              63.23529              0.3235294
+## 17                  1.687500       17.87500            319.1250              62.31250              0.3187500
+## 18                  1.705882       23.47059            337.8235              63.88235              0.3117647
+## 19                  1.411765       20.41176            322.0000              64.17647              0.2941176
+## 20                  1.411765       18.58824            311.0588              64.29412              0.2823529
+##    Total Turnovers Created Fumbles Forced Opponents Total First Downs Opponents Completions
+## 1               -1.5882353     -0.5882353                    19.11765              20.58824
+## 2               -1.9411765     -1.0000000                    19.23529              20.29412
+## 3               -1.1875000     -0.8125000                    23.12500              21.81250
+## 4               -1.1250000     -0.5625000                    17.87500              19.25000
+## 5               -1.4705882     -0.5882353                    21.11765              24.00000
+## 6               -1.2941176     -0.5882353                    22.17647              20.76471
+## 7               -1.4117647     -0.4117647                    18.88235              18.47059
+## 8               -1.3529412     -0.5294118                    21.23529              19.00000
+## 9               -1.1764706     -0.5882353                    18.47059              21.41176
+## 10              -1.0000000     -0.4117647                    20.35294              22.52941
+## 11              -0.8235294     -0.4117647                    18.76471              18.94118
+## 12              -1.0000000     -0.4117647                    20.64706              21.88235
+## 13              -1.7647059     -0.5882353                    17.11765              22.88235
+## 14              -1.4705882     -0.6470588                    20.41176              20.17647
+## 15              -1.2941176     -0.3529412                    19.47059              22.05882
+## 16              -1.1764706     -0.5294118                    21.35294              24.35294
+## 17              -1.6875000     -0.6250000                    19.56250              22.62500
+## 18              -0.8235294     -0.3529412                    19.76471              24.47059
+## 19              -1.7647059     -0.6470588                    18.47059              21.41176
+## 20              -0.9411765     -0.2352941                    18.23529              20.41176
+##    Opponents Pass Attempts Opponents Pass Yards Opponents Passing Touchdowns Opponents Interceptions Thrown
+## 1                 32.70588             179.8235                    1.2941176                     -1.0000000
+## 2                 32.35294             200.8824                    1.3529412                     -0.9411765
+## 3                 35.50000             227.3750                    1.3125000                     -0.3750000
+## 4                 32.12500             203.2500                    1.6250000                     -0.5625000
+## 5                 36.29412             265.5882                    1.3529412                     -0.8823529
+## 6                 32.94118             245.8235                    1.5294118                     -0.7058824
+## 7                 28.11765             197.0000                    1.2941176                     -1.0000000
+## 8                 28.29412             218.5882                    1.2941176                     -0.8235294
+## 9                 33.52941             203.5882                    1.7058824                     -0.5882353
+## 10                34.11765             227.5294                    1.4705882                     -0.5882353
+## 11                31.52941             184.3529                    1.0000000                     -0.4117647
+## 12                33.00000             231.8824                    1.5294118                     -0.5882353
+## 13                34.88235             222.8824                    1.1764706                     -1.1764706
+## 14                32.17647             211.4706                    1.3529412                     -0.8235294
+## 15                32.70588             226.0000                    1.3529412                     -0.9411765
+## 16                34.88235             230.2941                    1.7058824                     -0.6470588
+## 17                35.62500             214.5625                    1.3125000                     -1.0625000
+## 18                36.70588             234.8235                    1.5882353                     -0.4705882
+## 19                35.05882             216.5294                    1.6470588                     -1.1176471
+## 20                32.70588             189.4118                    0.8823529                     -0.7058824
+##    Opponents Net Yards per Pass Attempt Opponents Passing First Downs Opponents Rushing Attempts
+## 1                             0.2882353                     10.941176                   26.23529
+## 2                             0.3352941                     10.235294                   29.23529
+## 3                             0.3750000                     12.500000                   29.31250
+## 4                             0.3625000                      9.687500                   27.56250
+## 5                             0.4058824                     13.176471                   27.23529
+## 6                             0.4117647                     12.294118                   28.05882
+## 7                             0.3823529                      9.588235                   28.17647
+## 8                             0.4352941                     10.823529                   31.88235
+## 9                             0.3294118                     10.941176                   26.94118
+## 10                            0.3705882                     11.411765                   28.70588
+## 11                            0.3176471                      9.352941                   28.94118
+## 12                            0.4000000                     11.764706                   29.41176
+## 13                            0.3470588                     11.058824                   22.88235
+## 14                            0.3588235                     11.058824                   30.88235
+## 15                            0.3823529                     11.941176                   26.76471
+## 16                            0.3647059                     12.823529                   26.23529
+## 17                            0.3500000                     11.312500                   24.18750
+## 18                            0.3529412                     11.764706                   24.82353
+## 19                            0.3352941                     11.411765                   25.94118
+## 20                            0.3176471                      9.764706                   28.94118
+##    Opponents Rushing yards Opponents Rushing Touchdowns Opponents Yards per Rush Attempt
+## 1                121.64706                    0.8823529                        0.2705882
+## 2                129.29412                    0.5294118                        0.2588235
+## 3                153.18750                    1.0000000                        0.3250000
+## 4                120.37500                    0.6250000                        0.2750000
+## 5                123.11765                    1.0588235                        0.2647059
+## 6                146.52941                    1.2941176                        0.3058824
+## 7                139.52941                    1.0588235                        0.2941176
+## 8                157.29412                    1.8235294                        0.2882353
+## 9                120.70588                    0.7058824                        0.2647059
+## 10               122.64706                    1.0000000                        0.2529412
+## 11               130.47059                    0.8235294                        0.2647059
+## 12               130.23529                    0.8823529                        0.2588235
+## 13                77.70588                    0.6470588                        0.2000000
+## 14               150.23529                    1.2352941                        0.2882353
+## 15               115.05882                    0.7058824                        0.2529412
+## 16               118.58824                    1.2352941                        0.2647059
+## 17               104.56250                    0.6250000                        0.2687500
+## 18               103.00000                    0.8823529                        0.2411765
+## 19               105.47059                    0.4117647                        0.2411765
+## 20               121.64706                    0.8235294                        0.2470588
+##    Opponents Rushing First Downs Defensive Penalties Committed Defensive Penalty Yards
+## 1                       6.764706                      5.588235                46.94118
+## 2                       7.000000                      5.764706                50.05882
+## 3                       8.375000                      6.937500                51.18750
+## 4                       6.375000                      5.312500                44.18750
+## 5                       6.647059                      6.529412                54.47059
+## 6                       7.941176                      6.058824                48.11765
+## 7                       7.588235                      5.882353                53.88235
+## 8                       8.882353                      4.941176                38.35294
+## 9                       6.058824                      5.705882                50.76471
+## 10                      7.352941                      6.176471                50.94118
+## 11                      7.176471                      5.411765                46.94118
+## 12                      8.000000                      5.882353                47.29412
+## 13                      4.529412                      5.647059                48.94118
+## 14                      7.647059                      5.764706                48.11765
+## 15                      6.235294                      4.823529                40.64706
+## 16                      7.294118                      5.529412                44.52941
+## 17                      6.437500                      5.562500                47.12500
+## 18                      5.764706                      4.941176                47.00000
+## 19                      5.294118                      5.235294                41.11765
+## 20                      6.882353                      5.294118                41.58824
+##    First Downs Given up off Penalties Opponents Scoring Percentage
+## 1                           1.4117647                     1.905882
+## 2                           2.0000000                     1.970588
+## 3                           2.2500000                     2.487500
+## 4                           1.8125000                     1.968750
+## 5                           1.2941176                     2.417647
+## 6                           1.9411765                     2.423529
+## 7                           1.7058824                     2.247059
+## 8                           1.5294118                     2.458824
+## 9                           1.4705882                     1.941176
+## 10                          1.5882353                     2.011765
+## 11                          2.2352941                     2.047059
+## 12                          0.8823529                     2.558824
+## 13                          1.5294118                     1.511765
+## 14                          1.7058824                     2.188235
+## 15                          1.2941176                     2.411765
+## 16                          1.2352941                     2.447059
+## 17                          1.8125000                     1.937500
+## 18                          2.2352941                     2.205882
+## 19                          1.7647059                     1.794118
+## 20                          1.5882353                     1.900000
+##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 13 rows ]</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="getting-set-up.html#cb8-1" aria-hidden="true" tabindex="-1"></a>Scaled_stats[,<span class="fu">colnames</span>(All_stats)[<span class="fu">colnames</span>(All_stats)<span class="sc">!=</span><span class="st">&#39;Team&#39;</span>]] <span class="ot">&lt;-</span> <span class="fu">scale</span>(All_stats[,<span class="fu">colnames</span>(All_stats)[<span class="fu">colnames</span>(All_stats)<span class="sc">!=</span><span class="st">&#39;Team&#39;</span>]])</span>
+<span id="cb8-2"><a href="getting-set-up.html#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="getting-set-up.html#cb8-3" aria-hidden="true" tabindex="-1"></a>Scaled_stats <span class="ot">&lt;-</span> Scaled_stats[,<span class="fu">colnames</span>(Scaled_stats)[<span class="fu">colnames</span>(Scaled_stats)<span class="sc">!=</span><span class="st">&#39;Team&#39;</span>]]</span></code></pre></div>
 <p>Now that I had created my data frame, I was ready to do some clustering</p>
 </div>
 </div>

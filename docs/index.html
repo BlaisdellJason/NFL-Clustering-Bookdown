@@ -23,7 +23,7 @@
 <meta name="author" content="Jason Blaisdell" />
 
 
-<meta name="date" content="2023-01-11" />
+<meta name="date" content="2023-01-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -192,11 +192,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">NFL Team Clusters</h1>
 <p class="author"><em>Jason Blaisdell</em></p>
-<p class="date"><em>2023-01-11</em></p>
+<p class="date"><em>2023-01-13</em></p>
 </div>
 <div id="project-overview" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Project Overview<a href="index.html#project-overview" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Not all 13 win teams are created equally. The Vikings have proven that by having a negative point differential while winning 9 more games than they lost. Not all 1-6 teams are doomed to have the first pick in the draft as their only hope with Detroit rallying to win 8 of their last 10 games to only miss the playoffs on a tie breaker. In this project, I explored clustering the NFL’s 32 teams and the league average to see which teams were truly exceptional, whether they were good or bad.</p>
+<p>Not all 13 win teams are created equally. The Vikings have proven that by having a negative point differential while winning 9 more games than they lost. Not all 1-6 teams are doomed to have the first pick in the draft as their only hope; Detroit rallied to win 8 of their last 10 games and only miss the playoffs on a tie breaker. In this project, I explored clustering the NFL’s 32 teams and the league average to see which teams were truly exceptional, whether they were good or bad.</p>
 <p>I began by collecting 58 statistics measuring team performance for the season from <a href="https://www.pro-football-reference.com/years/2022/">link Pro Football Reference</a>. These statistics covered everything from wins and losses to passing first downs to fumbles forced. All of the statistic were adjusted so that a team’s value was the z-score to make the euclidean distance unbiased to statistics with a high absolute values. The statistics covered every element of the teams’ seasons so thoroughly that they became unwieldy, both in finding an optimal number of clusters and when trying to look at the common features of the teams, as there were just too many variables. To make the results more interpretable, I merged the variables into. 7 categories:
 <br></p>
 <div style="text-align:left; margin-left: 50px">
@@ -223,7 +223,9 @@ Rushing Defense
 </li>
 </div>
 <p><br>
-With the new, reduced number of variables, I redid the clustering. In the end, I made 8 clusters, taking inspiration from the NFL’s 8 divisions. These clusters had 2-7 teams, with the largest cluster also having the league average. These clusters and their defining characteristics will be explored in Chapter 4.</p>
+With the new, reduced number of variables, I redid the clustering. In the end, I made 8 clusters, taking inspiration from the NFL’s 8 divisions. These clusters had 2-7 teams, with the largest cluster also having the league average.</p>
+<p><br></p>
+<p>Jump to Chapter 5 if you just want to see the clusters and some findings!</p>
 </div>
             </section>
 
